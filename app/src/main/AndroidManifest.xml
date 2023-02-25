@@ -33,7 +33,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".ui.activity.HomeActivity"
+            android:name=".ui.activity.LivePlayActivity"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,9 +43,9 @@
             </intent-filter>
         </activity>
 
-        <activity
+<!--        <activity
             android:name=".ui.activity.LivePlayActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape" />-->
         <activity
             android:name=".ui.activity.DetailActivity"
             android:configChanges="orientation|screenSize"

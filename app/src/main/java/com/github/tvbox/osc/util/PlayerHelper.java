@@ -41,7 +41,7 @@ public class PlayerHelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        IJKCode codec = ApiConfig.get().getIJKCodec(ijkCode);
+        IJKCode codec = ApiConfig.get().getIJKCodec("opensles");
         PlayerFactory playerFactory;
         if (playerType == 1) {
             playerFactory = new PlayerFactory<IjkMediaPlayer>() {
