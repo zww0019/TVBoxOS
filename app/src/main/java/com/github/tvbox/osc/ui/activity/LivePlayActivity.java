@@ -40,6 +40,7 @@ import com.github.tvbox.osc.bean.LivePlayerManager;
 import com.github.tvbox.osc.bean.LiveSettingGroup;
 import com.github.tvbox.osc.bean.LiveSettingItem;
 import com.github.tvbox.osc.player.controller.LiveController;
+import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.ui.adapter.LiveChannelGroupAdapter;
 import com.github.tvbox.osc.ui.adapter.LiveChannelItemAdapter;
 import com.github.tvbox.osc.ui.adapter.LiveEpgAdapter;
@@ -50,6 +51,7 @@ import com.github.tvbox.osc.ui.adapter.MyEpgAdapter;
 import com.github.tvbox.osc.ui.dialog.LivePasswordDialog;
 import com.github.tvbox.osc.ui.tv.widget.ChannelListView;
 import com.github.tvbox.osc.ui.tv.widget.ViewObj;
+import com.github.tvbox.osc.util.AppManager;
 import com.github.tvbox.osc.util.EpgNameFuzzyMatch;
 import com.github.tvbox.osc.util.EpgUtil;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
@@ -70,6 +72,7 @@ import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,6 +117,8 @@ public class LivePlayActivity extends BaseActivity {
     private LiveSettingGroupAdapter liveSettingGroupAdapter;
     private LiveSettingItemAdapter liveSettingItemAdapter;
     private List<LiveSettingGroup> liveSettingGroupList = new ArrayList<>();
+
+    private long mExitTime = 0;
 
     public static  int currentChannelGroupIndex = 0;
     private Handler mHandler = new Handler();
@@ -592,10 +597,23 @@ public class LivePlayActivity extends BaseActivity {
         }else {
             mHandler.removeCallbacks(mConnectTimeoutChangeSourceRun);
             mHandler.removeCallbacks(mUpdateNetSpeedRun);
-            super.onBackPressed();
+            //super.onBackPressed();
+            exit();
         }
     }
-
+    private void exit() {
+        if (System.currentTimeMillis() - mExitTime < 2000) {
+            //这一段借鉴来自 q群老哥 IDCardWeb
+            EventBus.getDefault().unregister(this);
+            AppManager.getInstance().appExit(0);
+            ControlManager.get().stopServer();
+            finish();
+            super.onBackPressed();
+        } else {
+            mExitTime = System.currentTimeMillis();
+            Toast.makeText(mContext, "再按一次返回键退出应用", Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {

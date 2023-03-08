@@ -313,8 +313,8 @@ public class ApiConfig {
     JsonObject a = new JsonObject();
     a.addProperty("name", "TXT");
     a.addProperty("type", 0);
-    //TODO 直播源
-    a.addProperty("url", "https://video.kdphoto.cn/output_lincanwong.txt");
+    // TODO 直播源
+    a.addProperty("url", "https://video.kdphoto.cn/ddeuuxxjkd.txt");
     //elements.add(a);
     try {
       //JsonObject livesOBJ = infoJson.get("lives").getAsJsonArray().get(0).getAsJsonObject();
